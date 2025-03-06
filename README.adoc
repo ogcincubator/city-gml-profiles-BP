@@ -1,37 +1,13 @@
 = OGC Metanorma Templates
 
-image:https://github.com/metanorma/mn-templates-ogc/workflows/test/badge.svg["Test Status", link="https://github.com/metanorma/mn-templates-ogc/actions/workflows/test.yml"]
-image:https://github.com/metanorma/mn-templates-ogc/workflows/pages/badge.svg["Pages Status", link="https://github.com/metanorma/mn-templates-ogc/actions/workflows/pages.yml"]
-image:https://github.com/metanorma/mn-templates-ogc/workflows/docker/badge.svg["Build Status", link="https://github.com/metanorma/mn-templates-ogc/actions/workflows/docker.yml"]
+image:/workflows/test/badge.svg["Test Status", link=/actions/workflows/test.yml"]
+image:/workflows/pages/badge.svg["Pages Status", link="/actions/workflows/pages.yml"]
+image:workflows/docker/badge.svg["Build Status", link="/actions/workflows/docker.yml"]
 
-This GitHub repository contains templates for OGC documents.
+Best Practices for CityGML Profiles
 
-Note that the Apache license applies only to the template.
-Once a document has been created, the license must reflect the OGC document license.
+Forked from https://github.com/Tamrat-B/mn-templates-ogc
 
-This repository is used by the `metanorma new` command to create new documents.
+This repository uses Metanorma and github actions to automatically build the rendered document using the "Best Practices" template.
 
-== Document types
-
-These document types (``doctype``s) are supported in this template repository:
-
-* `standard`
-* `abstract-specification`
-* `best-practice`
-* `discussion-paper`
-* `white-paper` (unofficial?)
-* `release-notes` (unofficial?)
-
-These aren't supported yet:
-
-* `profile`
-* `standard-with-suite`
-* `community-standard`
-* `engineering-report`
-* `reference-model`
-* `user-guide`
-* `policy`
-* `guide`
-* `amendment`
-* `technical-corrigendum`
-* `administrative`
+To use please create your own fork of this repository, [set up github automations](#automations), and submit Pull Requests after checking local Metanorma builds
