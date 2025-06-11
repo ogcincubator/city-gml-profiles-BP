@@ -1,29 +1,218 @@
-== Clause containing normative material
+== Base Profile (normative)
 
-Paragraph
+=== Modules
+The CityGML Best Practice Guidance document provides an overview of how various CityGML modules align with the CityGML Standard.
 
-=== Requirement Class A or Requirement A Example
+CityGML encompasses several modules. The overall CityGML data model is thematically decomposed into a CityGML core module and extension modules. Each module is
+defined within its own globally unique XML namespace. Due to this modularization approach, there are various versions of valid CityGML
+documents are not valid CityGML 1.0.0 instance documents. As a result the Best Practice Guidance documents details varying levels of support:
 
-Paragraph – intro text for the requirement class.
 
-Use the following table for Requirements Classes.
-
-include::../requirements/requirements_class.adoc[]
-
-==== Requirement 1
-
-Paragraph - intro text for the requirement.
-
-Use the following table for Requirements, number sequentially.
-
-include::../requirements/requirement.adoc[]
-
-Dictionary tables for requirements can be added as necessary. Modify the following example as needed.
+The document also notes that database solutions are specific, and alternative methods are recommended for formats like RasterRelief that are not supported.
 
 [width="90%",options="header"]
 |===
-|Names |Definition |Data types and values |Multiplicity and use
-|name 1 |definition of name 1 |float |One or more (mandatory)
-|name 2 |definition of name 2 |character string type, not empty |Zero or one (optional)
-|name 3 |definition of name 3 |GML:: Point PropertyType |One (mandatory)
+|CityGML module |Included | Comment
+
+|Core|PARTIAL|NURBS are not supported, Implicit Geometries are not supported .ExternalReferences are not supported.
+|Appearance|PARTIAL| the CityGML class TexCoordGen is not supported, ie one must specify the UV coordinates in the texture files.
+|Bridge|YES|
+|Building|YES|	 
+|CityFurniture|YES|	 
+|CityObjectGroup|PARTIAL|groups of City Objects are supported, but not groups of parts of objects (eg it is not possible to group some walls of a building together)
+|Construction|Partial| Semantic surfaces are not supported	 
+|Dynamizer|NO|Semantically thin, dedicated systems
+|Generics|YES|	
+|LandUse|YES|	 
+|PointCloud|NO|
+|Relief|No| only the TINRelief/TriangulatedSurface is supported. 
+|Tin|NO|(where only elevation points and break lines are stored) is not supported since it would require viewer/applications to have a constrained Delaunay triangulator, which is problematic (especially for web-based tools). Also, it is not possible to store areas over a terrain that would support different resolutions. 
+|RasterRelief|NO|is also not supported -> other, better formats?
+|Transportation|TBD|	 
+|Tunnel|TBD|
+|Vegetation|YES|	 
+|Versioning|NO|CityJson using git based approach, Database specific solutions?
+|WaterBody|TBD|
 |===
+
+
+
+
+=== Required / Recommended Modules
+
+
+
+
+==== Building Module
+
+Applications must partially support the buildings module to comply with this Best Practice.
+
+
+**Required classes:**
+
+* **Building & Building Part**
+Applications shall support the TopLevelFeatureType "Building" as well as the FeatureType "BuildingPart".
+
+
+* **Storeys & Rooms**
+Applications shall support the FeatureTypes "BuildingRoom", "BuildingUnit" and "Storeys"
+
+
+**Optional classes:**
+
+* **Building Installation & Furniture**
+Applications may support the FeatureTypes "BuildingInstallation", "BuildingUnit" and "Storeys"
+
+
+* **Constructive Elements**
+Applications may support the FeatureTypes "BuildingContructiveElements"
+
+-> better to use alternatives/ifc 
+-> no use cases that warrent the query of individual surfaces / constructive elements accross city
+
+
+
+
+.UML of Building Module
+image::./figures/FIG3002.bmp[text-width]
+
+
+
+==== Bridge Module
+.UML of Bridge module, excluded components are greyed ou
+image::./figures/UML_Bridge.bmp[text-width]
+
+
+
+
+==== Vegetation Module
+
+Applications shall support the vegetation module to comply with this Best Practice.
+
+
+.UML of class Vegetion, not required components are greyed out
+image::./figures/UML_Vegetation.bmp[text-width]
+
+
+
+==== CityFurniture Module
+
+
+==== Construction Module
+The support of the "Constructions""module is not required for compliance with this Best Practice.
+However, due to the inhertiance of abstract construction classes, it is required...
+
+
+**Required classes:**
+
+* **AbstractCostruction**
+Applications may support the FeatureTypes "AbstractConstruction" and "OtherConstruction"
+
+
+
+
+**Not required classes**
+
+* **AbstractConstructionSurfaces**
+Applications may support the...
+
+
+.UML of Construction Module
+image::./figures/FIG3002.bmp[text-width]
+
+
+
+=== Optional Modules
+
+==== Tunnel Module
+.UML of Tunnel Module
+image::./figures/UML_Tunnel.bmp[text-width]
+
+
+
+
+==== CityObjectGroup Module
+The support of the "CityObjectGroup""module is not required for compliance with this best practice.
+
+
+
+
+
+==== Relief
+
+  - **Tin**: Support is impractical due to constraints with Delaunay triangulation.
+  - **RasterRelief**:  TINRelief/TriangulatedSurface is supported; alternatives for unsupported formats are suggested.
+
+-> in practice often from different source, also dedicated formats
+
+==== Land Use
+
+==== Water Body
+
+==== Generics Module
+
+==== Transportation Module
+
+-> recommended to use dedicated systems?
+
+
+==== Appearance
+The support of the "Constructions""module is not required for compliance with this profile.
+
+-> alternatives way of storing textures?? also reality meshes
+
+
+=== Excluded / Not Recommended Modules
+Excluded from this profile. The following modules are not considered in the context of this best practice document.
+
+==== Versioning
+The Versioning module is excluded from the scope of this profile.
+It is recommended to rely on a external version control (git) or database system to handle version control.
+
+
+==== Point Cloud 
+The Point Cloud module is excluded from the scope of this profile.
+It is recommended to use optimized storage formats and systems for point clouds.
+
+
+
+==== Dynamizer
+The Versioning module is excluded from the scope of this profile.
+It is recommended to rely on dedicated systems / records for this kind of data.
+
+
+
+
+
+
+
+
+
+=== Geometry Objects
+==== Geometry Types
+The CityGML Conceptual Model does not put any restriction on the usage of specific geometry types as defined in ISO 19107. For example, 3D surfaces could be represented in a dataset using 3D polygons or 3D meshes such as triangulated irregular networks (TINS) or by non-uniform rational B-spline surfaces (NURBS). 
+
+In order to improve interoperability and facilitate implementation, this profile restricts to the use of 3d polygons and 3d meshes.
+
+
+
+
+==== Implicit Geometry
+
+Geometry shall be explicitly defined and may not be implicit.
+
+
+
+
+
+=== CRS 
+
+All CityObjects shall use the same CRS. 
+
+The coordinate reference system (CRS) shall be defined as a URL formatted according to the OGC Name Type Specification:
+
+http://www.opengis.net/def/crs/{authority}/{version}/{code}
+
+where {authority} designates the authority responsible for the definition of this CRS (usually "EPSG" or "OGC"), and where {version} designates the specific version of the CRS ("0" (zero) is used if there is no version).
+
+A projected, cartesian coordinate system shall be used.
